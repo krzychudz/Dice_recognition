@@ -21,7 +21,7 @@ while(True):
 
 
 
-    ret, th1 = cv2.threshold(absdiffFrame,150,255,cv2.THRESH_BINARY,cv2.THRESH_OTSU)
+    ret, th1 = cv2.threshold(absdiffFrame,145,255,cv2.THRESH_BINARY,cv2.THRESH_OTSU)
 
     edges = cv2.Canny(th1, 2, 2*2,3)
 
@@ -31,8 +31,8 @@ while(True):
     for i in contours:
          conArea = cv2.contourArea(i)
          if conArea > 2000 and conArea < 3500:
-             diceBoundsRect = cv2.boundingRect(contours)
-             cv2.rectangle(frame,diceBoundsRect.t1(),diceBoundsRect.br(),(0,0,255),2,8,0)
+             x,y,w,h = cv2.boundingRect(i)
+             cv2.rectangle(frame,(x,y),(x+w, y+h),(0,0,255),2,8,0)
 
 
     cv2.imshow('video',frame)
