@@ -48,7 +48,7 @@ while(True):
 
             #detector = cv2.SimpleBlobDetector_create(pp) - Jeśli chcemy uzywac parametrow
 
-            detector = cv2.SimpleBlobDetector_create()
+            detector = cv2.SimpleBlobDetector_create() # A tak bez parametrów
             keypoints = detector.detect(kostka)
             im_with_keypoints = cv2.drawKeypoints(kostka, keypoints, numpy.array([]), (0, 0, 255),
                                                   cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
