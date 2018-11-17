@@ -37,16 +37,27 @@ while(True):
             kostka = cv2.resize(kostka, (150,150))
             kostka = cv2.cvtColor(kostka, cv2.COLOR_BGR2GRAY)
             ret, kostka = cv2.threshold(kostka, 220, 255, cv2.THRESH_BINARY, cv2.THRESH_OTSU)
-            h, w = kostka.shape[:2]
-            mask = numpy.zeros((h + 2, w + 2), numpy.uint8)
+            h1, w1 = kostka.shape[:2]
+            mask = numpy.zeros((h1 + 2, w1 + 2), numpy.uint8)
             for j in [(0,0), (0,149), (149,0), (149,149)]:
                 cv2.floodFill(kostka, mask, j,255)
-            detector = cv2.SimpleBlobDetector(filterByInertia = True, minInertiaRatio = 0.5)
-            #keypoints = detector.detect(kostka)
-            #im_with_keypoints = cv2.drawKeypoints(kostka, keypoints, numpy.array([]), (0, 0, 255),
-            #                                      cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-            #cv2.imshow("Keypoints", im_with_keypoints)
+
+            pp = cv2.SimpleBlobDetector_Params()
+            pp.filterByInertia = True
+            pp.minInertiaRatio = 0.5
+
+            #detector = cv2.SimpleBlobDetector_create(pp) - Jeśli chcemy uzywac parametrow
+
+            detector = cv2.SimpleBlobDetector_create()
+            keypoints = detector.detect(kostka)
+            im_with_keypoints = cv2.drawKeypoints(kostka, keypoints, numpy.array([]), (0, 0, 255),
+                                                  cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+            Info = "Oczka: " + str(len(keypoints))
+            cv2.putText(frame,Info,(x,y + h + 15),cv2.FONT_HERSHEY_COMPLEX_SMALL,0.8,(255,0,0))
+
+            cv2.imshow("Keypoints", im_with_keypoints)
             cv2.imshow('dice', kostka)
+
     cv2.imshow('video',frame)
     cv2.imshow('proccessing', edges)
 
